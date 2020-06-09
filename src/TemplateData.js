@@ -211,7 +211,12 @@ class TemplateData {
     let folders = parsed.dir ? parsed.dir.split("/") : [];
     folders.push(parsed.name);
 
-    return folders.join(".");
+    // Folders reduce to `folder["subfolder"]["subsubfolder"]`...
+    const reduction = folders.reduce((acc, cur, i) =>
+      i === 0 ? cur : `${acc}["${cur}"]`
+    );
+
+    return reduction;
   }
 
   async getAllGlobalData() {
